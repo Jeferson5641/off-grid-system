@@ -1,4 +1,5 @@
 import SolarSizingCalculator from "@/(page)/solarpage/page";
+import "./globals.css";
 
 export default function Home() {
   return (
