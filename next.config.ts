@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   output: 'export',
   basePath: '/off-grid-system',
+  distDir: 'docs',
   reactCompiler: true,
   images: {
     unoptimized: true,
