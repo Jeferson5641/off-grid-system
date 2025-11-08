@@ -20,6 +20,7 @@ export type Results = {
   batteryCapacityAh: number;
   unitsNeeded: number;
   chosenSpecs: { dod: number; eff: number; label: string };
+  avgRaw: number;
 };
 
 // Características de Descarga (DoD) e Eficiência (Eff) da Bateria

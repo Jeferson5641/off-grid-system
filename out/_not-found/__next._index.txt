@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[8172,[],""]
+3:I[4829,[],""]
+:HL["/off-grid-system/_next/static/css/8d07138eab4c772f.css","style"]
+0:{"buildId":"_C8xKD45VzqIm6263iBAU","rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/off-grid-system/_next/static/css/8d07138eab4c772f.css","precedence":"next"}]],["$","html",null,{"lang":"en","children":["$","body",null,{"className":"__variable_30bd6e __variable_ffcc0a antialiased","children":["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]}]}]]}],"loading":null,"isPartial":false}
