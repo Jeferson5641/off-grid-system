@@ -1,14 +1,15 @@
 // SolarSizingCalculator.tsx (ou .js)
 
 "use client";
-import React, { useState } from "react";
 import {
-  SizingData,
   Results,
+  SizingData,
+  allBatteryTypes,
   calculateSystemSizing,
   fetchIrradianceClimatology,
-  allBatteryTypes,
-} from "@/(page)/calc/calc"; // Ajuste o path conforme sua estrutura
+} from "@/(page)/calc/calc";
+import { Input } from "@/components/ui/input";
+import React, { useState } from "react";
 
 // Estado inicial do formulário
 const initialFormData: SizingData = {
@@ -50,8 +51,10 @@ export default function SolarSizingCalculator() {
     try {
       const monthlyData = await fetchIrradianceClimatology(latitude, longitude);
       setIrradianceMonthly(monthlyData);
-    } catch (e: any) {
-      setError(e.message || "Erro ao buscar dados de radiação.");
+    } catch (e: unknown) {
+      const errorMessage =
+        e instanceof Error ? e.message : "Erro ao buscar dados de radiação.";
+      setError(errorMessage || "Erro ao buscar dados de radiação.");
     } finally {
       setLoading(false);
     }
@@ -70,28 +73,32 @@ export default function SolarSizingCalculator() {
     try {
       const res = calculateSystemSizing(formData, irradianceMonthly);
       setResults(res);
-    } catch (e: any) {
-      setError(e.message || "Erro durante o cálculo do dimensionamento.");
+    } catch (e: unknown) {
+      const errorMessage =
+        e instanceof Error
+          ? e.message
+          : "Erro durante o cálculo do dimensionamento.";
+      setError(errorMessage || "Erro durante o cálculo do dimensionamento.");
     }
   };
 
   const batterySpecs = allBatteryTypes[formData.batteryType];
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="flex flex-col max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h1 className="text-3xl font-bold mb-6 text-indigo-700">
         ☀️ Calculadora Off-Grid Solar
       </h1>
 
-      <form onSubmit={handleCalculate} className="grid grid-cols-1 gap-6">
+      <form onSubmit={handleCalculate} className="flex flex-col gap-6">
         {/* --- 1. Localização e Consumo --- */}
-        <h2 className="text-xl font-semibold border-b pb-2 text-indigo-600">
+        <h2 className="text-xl font-semibold px-8 border-b pb-2 text-indigo-600">
           1. Localização e Consumo
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="flex rounded-lg md:grid-cols-3 gap-4">
           <label className="block">
             <div className="text-sm font-medium text-black">Latitude</div>
-            <input
+            <Input
               type="number"
               step="0.0001"
               value={latitude}
@@ -101,7 +108,7 @@ export default function SolarSizingCalculator() {
           </label>
           <label className="block">
             <div className="text-sm font-medium text-black">Longitude</div>
-            <input
+            <Input
               type="number"
               step="0.0001"
               value={longitude}
@@ -113,7 +120,7 @@ export default function SolarSizingCalculator() {
             <div className="text-sm font-medium text-black">
               Consumo médio/mês (kWh)
             </div>
-            <input
+            <Input
               type="number"
               min={0}
               name="monthlyKwh"
@@ -131,12 +138,12 @@ export default function SolarSizingCalculator() {
         <h2 className="text-xl font-semibold border-b pb-2 mt-4 text-indigo-600">
           2. Componentes e Configurações
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <label className="block">
+        <div className="flex grid-cols-1 md:grid-cols-4 gap-4 justify-items-center md:flex-row flex-col">
+          <label className="flex-1 block">
             <div className="text-sm font-medium text-black">
               Potência do Painel (Wp)
             </div>
-            <input
+            <Input
               type="number"
               min={50}
               name="panelWatt"
@@ -149,7 +156,7 @@ export default function SolarSizingCalculator() {
             <div className="text-sm font-medium text-black">
               Performance Ratio (0-1)
             </div>
-            <input
+            <Input
               type="number"
               step="0.01"
               min={0.5}
@@ -167,7 +174,7 @@ export default function SolarSizingCalculator() {
             <div className="text-sm font-medium text-black">
               Dias de Autonomia
             </div>
-            <input
+            <Input
               type="number"
               min={1}
               name="autonomyDays"
@@ -220,7 +227,7 @@ export default function SolarSizingCalculator() {
             <div className="text-sm font-medium text-black">
               Capacidade da Unidade de Bateria (Ah)
             </div>
-            <input
+            <Input
               type="number"
               min={1}
               name="batteryUnitAh"
