@@ -1,11 +1,11 @@
 # ☀️ Off-Grid System Calculator
 
-<div align="center">
+<div>
 
 ## Language Selection
 
 </div>
-<details align="center">
+<details>
 <summary><strong> Português (Brasil)</strong></summary>
 
 Uma aplicação web moderna para **dimensionamento de sistemas fotovoltaicos off-grid**. Calcula automaticamente painéis solares, baterias e componentes necessários para sistemas de energia renovável autossuficientes.
@@ -85,7 +85,7 @@ MIT License - Use livremente!
 
 </details>
 
-<details align="center">
+<details>
 <summary><strong> English (USA)</strong></summary>
 
 A modern web application for **sizing off-grid photovoltaic systems**. Automatically calculates solar panels, batteries, and components needed for self-sufficient renewable energy systems.
@@ -155,7 +155,7 @@ MIT License - Feel free to use!
 
 </details>
 
-<details align="center">
+<details>
 <summary><strong> Español</strong></summary>
 
 Una aplicación web moderna para **dimensionar sistemas fotovoltaicos off-grid**. Calcula automáticamente paneles solares, baterías y componentes necesarios para sistemas de energía renovable autosuficientes.
