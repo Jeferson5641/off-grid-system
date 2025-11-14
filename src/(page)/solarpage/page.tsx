@@ -1,5 +1,3 @@
-// SolarSizingCalculator.tsx (ou .js)
-
 "use client";
 import {
   Results,
@@ -10,6 +8,7 @@ import {
 } from "@/(page)/calc/calc";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // Estado inicial do formulário
 const initialFormData: SizingData = {
@@ -23,6 +22,7 @@ const initialFormData: SizingData = {
 };
 
 export default function SolarSizingCalculator() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState(initialFormData);
   const [latitude, setLatitude] = useState(-15.7797);
   const [longitude, setLongitude] = useState(-47.9297);
@@ -66,7 +66,7 @@ export default function SolarSizingCalculator() {
     setResults(null);
 
     if (!irradianceMonthly || irradianceMonthly.length === 0) {
-      setError("Por favor, **busque a radiação solar** primeiro.");
+      setError(t("calculator.pleaseSearchRadiation"));
       return;
     }
 
@@ -75,10 +75,8 @@ export default function SolarSizingCalculator() {
       setResults(res);
     } catch (e: unknown) {
       const errorMessage =
-        e instanceof Error
-          ? e.message
-          : "Erro durante o cálculo do dimensionamento.";
-      setError(errorMessage || "Erro durante o cálculo do dimensionamento.");
+        e instanceof Error ? e.message : t("calculator.calculationError");
+      setError(errorMessage || t("calculator.calculationError"));
     }
   };
 
@@ -87,17 +85,19 @@ export default function SolarSizingCalculator() {
   return (
     <div className="flex flex-col max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h1 className="text-3xl font-bold mb-6 text-indigo-700">
-        ☀️ Calculadora Off-Grid Solar
+        {t("common.title")}
       </h1>
 
       <form onSubmit={handleCalculate} className="flex flex-col gap-6">
         {/* --- 1. Localização e Consumo --- */}
         <h2 className="text-xl font-semibold px-8 border-b pb-2 text-indigo-600">
-          1. Localização e Consumo
+          {t("calculator.section1")}
         </h2>
         <div className="flex rounded-lg md:grid-cols-3 gap-4">
           <label className="block">
-            <div className="text-sm font-medium text-black">Latitude</div>
+            <div className="text-sm font-medium text-black">
+              {t("calculator.latitude")}
+            </div>
             <Input
               type="number"
               step="0.0001"
@@ -107,7 +107,9 @@ export default function SolarSizingCalculator() {
             />
           </label>
           <label className="block">
-            <div className="text-sm font-medium text-black">Longitude</div>
+            <div className="text-sm font-medium text-black">
+              {t("calculator.longitude")}
+            </div>
             <Input
               type="number"
               step="0.0001"
@@ -118,7 +120,7 @@ export default function SolarSizingCalculator() {
           </label>
           <label className="block">
             <div className="text-sm font-medium text-black">
-              Consumo médio/mês (kWh)
+              {t("calculator.monthlyConsumption")}
             </div>
             <Input
               type="number"
@@ -129,19 +131,20 @@ export default function SolarSizingCalculator() {
               className="mt-1 block w-full rounded-md border p-2 focus:ring-indigo-500 focus:border-indigo-500 text-black"
             />
             <div className="text-xs text-gray-500 mt-1">
-              Consumo diário: {(formData.monthlyKwh / 30).toFixed(2)} kWh
+              {t("calculator.dailyConsumption")}:{" "}
+              {(formData.monthlyKwh / 30).toFixed(2)} kWh
             </div>
           </label>
         </div>
 
         {/* --- 2. Componentes e Configurações --- */}
         <h2 className="text-xl font-semibold border-b pb-2 mt-4 text-indigo-600">
-          2. Componentes e Configurações
+          {t("calculator.section2")}
         </h2>
         <div className="flex grid-cols-1 md:grid-cols-4 gap-4 justify-items-center md:flex-row flex-col">
           <label className="flex-1 block">
             <div className="text-sm font-medium text-black">
-              Potência do Painel (Wp)
+              {t("calculator.panelWattage")}
             </div>
             <Input
               type="number"
@@ -154,7 +157,7 @@ export default function SolarSizingCalculator() {
           </label>
           <label className="block">
             <div className="text-sm font-medium text-black">
-              Performance Ratio (0-1)
+              {t("calculator.performanceRatio")}
             </div>
             <Input
               type="number"
@@ -167,12 +170,12 @@ export default function SolarSizingCalculator() {
               className="mt-1 block w-full rounded-md border p-2 focus:ring-indigo-500 focus:border-indigo-500 text-black"
             />
             <div className="text-xs text-gray-500 mt-1">
-              Fator de perdas (~0.75)
+              {t("calculator.lossFactorLabel")}
             </div>
           </label>
           <label className="block">
             <div className="text-sm font-medium text-black">
-              Dias de Autonomia
+              {t("calculator.autonomyDays")}
             </div>
             <Input
               type="number"
@@ -185,7 +188,7 @@ export default function SolarSizingCalculator() {
           </label>
           <label className="block">
             <div className="text-sm font-medium text-black">
-              Tensão do Banco (V)
+              {t("calculator.bankVoltage")}
             </div>
             <select
               name="bankVoltage"
@@ -204,7 +207,7 @@ export default function SolarSizingCalculator() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <label className="block">
             <div className="text-sm font-medium text-black">
-              Tipo de Bateria
+              {t("calculator.batteryTypeLabel")}
             </div>
             <select
               name="batteryType"
@@ -212,20 +215,20 @@ export default function SolarSizingCalculator() {
               onChange={handleInputChange}
               className="mt-1 block w-full rounded-md border p-2 focus:ring-indigo-500 focus:border-indigo-500 text-black"
             >
-              {Object.entries(allBatteryTypes).map(([key, spec]) => (
+              {Object.entries(allBatteryTypes).map(([key]) => (
                 <option key={key} value={key}>
-                  {spec.label}
+                  {t(`batteryTypes.${key}`)}
                 </option>
               ))}
             </select>
             <div className="text-xs text-gray-500 mt-1">
-              DoD: {batterySpecs.dod * 100}% | Eff:{" "}
-              {Math.round(batterySpecs.eff * 100)}%
+              {t("calculator.doD")}: {batterySpecs.dod * 100}% |{" "}
+              {t("calculator.eff")}: {Math.round(batterySpecs.eff * 100)}%
             </div>
           </label>
           <label className="block md:col-span-2">
             <div className="text-sm font-medium text-black">
-              Capacidade da Unidade de Bateria (Ah)
+              {t("calculator.batteryUnitCapacity")}
             </div>
             <Input
               type="number"
@@ -246,14 +249,16 @@ export default function SolarSizingCalculator() {
             className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition"
             disabled={loading}
           >
-            {loading ? "Consultando..." : "Buscar Radiação (NASA POWER)"}
+            {loading
+              ? t("calculator.consulting")
+              : t("calculator.fetchRadiation")}
           </button>
           <button
             type="submit"
             className="px-6 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition ml-auto"
             disabled={loading || !irradianceMonthly}
           >
-            Calcular Sistema
+            {t("calculator.calculateSystem")}
           </button>
         </div>
       </form>
@@ -261,7 +266,7 @@ export default function SolarSizingCalculator() {
       {/* --- Exibição de Resultados (A ser criado como um componente separado para maior clareza!) --- */}
       {error && (
         <div className="mt-6 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
-          Erro: {error}
+          {t("calculator.error")}: {error}
         </div>
       )}
 
@@ -269,13 +274,13 @@ export default function SolarSizingCalculator() {
       {irradianceMonthly && (
         <div className="bg-blue-50 p-4 rounded-md border border-blue-200 mt-4">
           <h2 className="font-semibold text-blue-800">
-            Dados de Radiação Solar (HSP média)
+            {t("calculator.radiationData")}
           </h2>
           <div className="mt-3 text-xs text-gray-600">
-            **HSP Média (Total):**{" "}
+            **HSP {t("calculator.average")} ({t("calculator.total")}):**{" "}
             {irradianceMonthly.reduce((s, v) => s + v, 0) /
               irradianceMonthly.length}{" "}
-            kWh/m²/dia.
+            kWh/m²/{t("calculator.day")}.
           </div>
         </div>
       )}
@@ -284,19 +289,19 @@ export default function SolarSizingCalculator() {
       {results && (
         <div className="mt-6 bg-green-50 p-6 rounded-lg border-2 border-green-300">
           <h2 className="text-xl font-bold mb-4 text-green-800">
-            ✅ Resultados do Dimensionamento
+            ✅ {t("calculator.results")}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Painéis */}
             <div className="p-4 rounded-md bg-white shadow-md border-l-4 border-yellow-600">
               <div className="text-sm text-gray-600">
-                Painéis Necessários ({formData.panelWatt} Wp)
+                {t("calculator.panelsNeeded")} ({formData.panelWatt} Wp)
               </div>
               <div className="text-3xl font-extrabold text-yellow-700">
                 {results.panelsNeeded}
               </div>
               <div className="text-sm text-gray-600 mt-2">
-                Potência Total Instalada: **
+                {t("calculator.totalInstalledPower")}: **
                 {Math.ceil(
                   (results.panelsNeeded * formData.panelWatt) / 1000
                 )}{" "}
@@ -307,32 +312,35 @@ export default function SolarSizingCalculator() {
             {/* Baterias (Ah) */}
             <div className="p-4 rounded-md bg-white shadow-md border-l-4 border-blue-600">
               <div className="text-sm text-gray-600">
-                Capacidade Total Necessária
+                {t("calculator.totalCapacityNeeded")}
               </div>
               <div className="text-3xl font-extrabold text-blue-700">
-                {results.batteryCapacityAh.toFixed(0)} Ah
+                {results.batteryCapacityAh.toFixed(0)} {t("calculator.Ah")}
               </div>
               <div className="text-sm text-gray-600 mt-2">
-                Voltagem: **{formData.bankVoltage} V**
+                {t("calculator.voltage")}: **{formData.bankVoltage} V**
                 <br />
-                Capacidade Total: **{results.batteryCapacityKwh.toFixed(2)}{" "}
-                kWh**
+                {t("calculator.totalCapacity")}: **
+                {results.batteryCapacityKwh.toFixed(2)} kWh**
               </div>
             </div>
 
             {/* Unidades de Bateria */}
             <div className="p-4 rounded-md bg-white shadow-md border-l-4 border-purple-600">
               <div className="text-sm text-gray-600">
-                Unidades de Bateria ({formData.batteryUnitAh} Ah)
+                {t("calculator.batteryUnits")} ({formData.batteryUnitAh}{" "}
+                {t("calculator.Ah")})
               </div>
               <div className="text-3xl font-extrabold text-purple-700">
                 {results.unitsNeeded}
               </div>
               <div className="text-sm text-gray-600 mt-2">
-                Autonomia: **{formData.autonomyDays} dias**
+                {t("calculator.autonomy")}: **{formData.autonomyDays}{" "}
+                {t("calculator.days")}**
                 <br />
-                Tipo: **{results.chosenSpecs.label}** (DoD{" "}
-                {results.chosenSpecs.dod * 100}%)
+                {t("calculator.type")}: **
+                {t(`batteryTypes.${formData.batteryType}`)}** (
+                {t("calculator.doD")} {results.chosenSpecs.dod * 100}%)
               </div>
             </div>
           </div>

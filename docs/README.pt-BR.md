@@ -1,30 +1,14 @@
-# ☀️ Off-Grid System Calculator
+# ☀️ Calculadora Off-Grid Solar
 
-**🌍 Escolha seu idioma | Select your language | Selecciona tu idioma:**
+**🌍 Escolha seu idioma:**
 
-[![PT-BR](https://img.shields.io/badge/Português-blue?style=for-the-badge&logo=readme)](./docs/README.pt-BR.md)
-[![EN-US](https://img.shields.io/badge/English-green?style=for-the-badge&logo=readme)](./docs/README.en-US.md)
-[![ES](https://img.shields.io/badge/Español-red?style=for-the-badge&logo=readme)](./docs/README.es.md)
+[![PT-BR](https://img.shields.io/badge/Português-blue?style=for-the-badge)](./README.pt-BR.md)
+[![EN-US](https://img.shields.io/badge/English-green?style=for-the-badge)](./README.en-US.md)
+[![ES](https://img.shields.io/badge/Español-red?style=for-the-badge)](./README.es.md)
 
 ---
 
-## Overview
-
-**Off-Grid System Calculator** is a modern web application for **sizing off-grid photovoltaic systems**. It automatically calculates the number of solar panels, batteries, and other components needed for self-sufficient renewable energy systems.
-
-The application integrates real climate data from the **NASA POWER API** to calculate the solar potential of any geographic location and automatically size the system components.
-
-### Key Features
-
-✅ **NASA POWER API Integration** - Gets real climate data for solar irradiation  
-✅ **Intelligent Panel Calculation** - Sizes panels based on consumption and radiation  
-✅ **Battery Sizing** - Supports multiple types (LiFePO4, Lead-acid)  
-✅ **Autonomy Calculation** - Defines how many days the system runs without generation  
-✅ **Responsive Interface** - Modern design with Tailwind CSS and shadcn/ui  
-✅ **Accurate Physics** - Application of degradation and real-world loss factors  
-✅ **Multilingual Support** - Portuguese, English, and Spanish with automatic detection
-
-### Tech Stack
+Uma aplicação web moderna para **dimensionamento de sistemas fotovoltaicos off-grid** (isolados da rede elétrica). Calcula automaticamente a quantidade de painéis solares, baterias e componentes necessários para sistemas de energia renovável autossuficientes.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.0-black?style=flat-square&logo=next.js)
 ![React](https://img.shields.io/badge/React-19-blue?style=flat-square&logo=react)
@@ -32,37 +16,19 @@ The application integrates real climate data from the **NASA POWER API** to calc
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1-38B6FF?style=flat-square&logo=tailwindcss)
 ![i18next](https://img.shields.io/badge/i18next-23-26A69A?style=flat-square&logo=i18next)
 
----
+## 📋 Visão Geral
 
-## � Quick Start
+O **Off-Grid System Calculator** é uma ferramenta essencial para engenheiros, instaladores e entusiastas de energia renovável. A aplicação integra dados climáticos reais da **NASA POWER API** para calcular o potencial solar de qualquer localização geográfica e dimensionar automaticamente os componentes do sistema.
 
-### Prerequisites
+### Funcionalidades Principais
 
-- Node.js 18+
-- npm or yarn
-
-### Installation
-
-```bash
-git clone https://github.com/Jeferson5641/off-grid-system.git
-cd off-grid-system
-npm install
-```
-
-### Development
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000)
-
-### Production Build
-
-```bash
-npm run build
-npm start
-```
+✅ **Integração com NASA POWER API** - Obtém dados climáticos reais de irradiação solar  
+✅ **Cálculo Inteligente de Painéis** - Dimensiona a quantidade de painéis baseado no consumo e radiação  
+✅ **Dimensionamento de Baterias** - Suporta múltiplos tipos (LiFePO4, Chumbo-ácido)  
+✅ **Cálculo de Autonomia** - Define quantos dias o sistema funciona sem geração  
+✅ **Interface Responsiva** - Design moderno com Tailwind CSS e shadcn/ui  
+✅ **Cálculos Físicos Precisos** - Aplicação de fatores de degradação e perdas reais  
+✅ **Suporte Multilíngue** - Português, Inglês e Espanhol com detecção automática
 
 ## 🚀 Como Começar
 
@@ -81,16 +47,12 @@ cd off-grid-system
 
 # Instale as dependências
 npm install
-# ou
-yarn install
 ```
 
 ### Execução em Desenvolvimento
 
 ```bash
 npm run dev
-# ou
-yarn dev
 ```
 
 Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
@@ -100,9 +62,6 @@ Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
 ```bash
 npm run build
 npm start
-# ou
-yarn build
-yarn start
 ```
 
 ## 📐 Como Usar
@@ -159,14 +118,19 @@ off-grid-system/
 │   │   └── calc/
 │   │       └── calc.tsx        # Lógica de cálculos e integração com API
 │   ├── components/
-│   │   └── ui/                 # Componentes shadcn/ui
-│   │       ├── input.tsx
-│   │       ├── button.tsx
-│   │       ├── select.tsx
-│   │       └── ...
+│   │   ├── LanguageSwitcher.tsx   # Seletor de idiomas
+│   │   ├── I18nProvider.tsx       # Provider de internacionalização
+│   │   └── ui/                    # Componentes shadcn/ui
+│   ├── i18n/
+│   │   ├── config.ts              # Configuração do i18next
+│   │   └── locales/               # Arquivos de tradução
+│   │       ├── pt.json
+│   │       ├── en.json
+│   │       └── es.json
 │   └── lib/
 │       └── utils.ts            # Utilitários gerais
 ├── public/                     # Arquivos estáticos
+├── docs/                       # Documentação em múltiplos idiomas
 ├── package.json
 ├── tsconfig.json
 ├── tailwind.config.js
@@ -205,7 +169,8 @@ $$\text{Unidades Necessárias} = \lceil \frac{\text{Capacidade Ah}}{\text{Capaci
 | TypeScript      | 5      | Tipagem estática             |
 | Tailwind CSS    | 4.1    | Estilização utilitária       |
 | shadcn/ui       | -      | Componentes acessíveis       |
-| Radix UI        | -      | Primitivos de UI             |
+| i18next         | 23     | Internacionalização          |
+| react-i18next   | 14     | Integração React com i18next |
 | React Hook Form | 7.66   | Gerenciamento de formulários |
 | Zod             | 4.1    | Validação de schemas         |
 
@@ -223,6 +188,25 @@ $$\text{Unidades Necessárias} = \lceil \frac{\text{Capacidade Ah}}{\text{Capaci
 const monthlyData = await fetchIrradianceClimatology(-15.7797, -47.9297);
 // Retorna: [4.2, 4.1, 3.8, 3.5, ..., 4.3] kWh/m²/dia
 ```
+
+## 🌐 Suporte Multilíngue
+
+A aplicação detecta automaticamente o idioma do navegador e exibe a interface no idioma apropriado:
+
+- **🇧🇷 Português** - Brasil e Portugal
+- **🇺🇸 Inglês** - USA e UK
+- **🇪🇸 Espanhol** - Espanha e América Latina
+
+Você pode trocar o idioma manualmente usando o seletor no canto superior direito com as bandeiras dos países.
+
+### Tradução Dinâmica
+
+Todas as strings da interface foram traduzidas usando **i18next** com detecção automática de idioma:
+
+- Localização automática baseada em `navigator.language`
+- Troca de idioma em tempo real sem recarregar a página
+- Suporte para 30+ chaves de tradução
+- Organização clara de chaves por seção
 
 ## 📊 Exemplos de Resultados
 
@@ -278,11 +262,12 @@ Contribuições são bem-vindas! Para contribuir:
 - ✅ Cálculos básicos implementados
 - ✅ Integração com NASA POWER API
 - ✅ Interface responsiva
+- ✅ Suporte multilíngue (PT/EN/ES)
 - 🔄 Em desenvolvimento e melhorias contínuas
 
 ## 📦 Versão Atual
 
-`v0.1.0` - Alpha (Versão em desenvolvimento)
+`v0.2.0` - Beta (Suporte multilíngue adicionado)
 
 ---
 
