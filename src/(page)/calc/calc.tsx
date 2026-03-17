@@ -19,26 +19,20 @@ export type Results = {
   batteryCapacityKwh: number;
   batteryCapacityAh: number;
   unitsNeeded: number;
-  chosenSpecs: { dod: number; eff: number; label: string };
+  chosenSpecs: { dod: number; eff: number; label: string; minLevel: number };
   avgRaw: number;
+  config: SizingData;
 };
 
 // Características de Descarga (DoD) e Eficiência (Eff) da Bateria
+// DoD significa a profundidade máxima de descarga recomendada
 const BATTERY_SPECS: Record<
   string,
-  { dod: number; eff: number; label: string }
+  { dod: number; eff: number; label: string; minLevel: number }
 > = {
-  lifepo4: { dod: 0.8, eff: 0.95, label: "LiFePO4" },
-  lead_acid_stationary: {
-    dod: 0.6,
-    eff: 0.85,
-    label: "Chumbo-ácido (Estacionária)",
-  },
-  lead_acid_automotive: {
-    dod: 0.3,
-    eff: 0.8,
-    label: "Chumbo-ácido (Automotiva)",
-  },
+  lifepo4: { dod: 0.8, eff: 0.95, minLevel: 20, label: "LiFePO4" },
+  lead_acid_stationary: { dod: 0.7, eff: 0.85, minLevel: 30, label: "Chumbo-ácido (Estacionária)" },
+  lead_acid_automotive: { dod: 0.2, eff: 0.8, minLevel: 80, label: "Chumbo-ácido (Automotiva)" },
 };
 
 /**
@@ -138,12 +132,16 @@ export function calculateSystemSizing(
   const usableNeededKwh = dailyWithLosses * autonomyDays;
 
   // Capacidade Nominal Total (kWh) = (Energia Necessária) / (DoD * Eficiência)
+  // DoD é o tanto que ela PODE descarregar.
   const batteryCapacityKwh = usableNeededKwh / (specs.dod * specs.eff);
 
-  // Capacidade Nominal Total (Ah) = (Capacidade Nominal Total * 1000) / Tensão do Banco
+  // Capacidade em Ah do Banco (considerando a tensão selecionada pelo usuário)
+  // Atenção: um banco de 48V precisará de menos Ah totais *no banco* do que um de 12V.
   const batteryCapacityAh = (batteryCapacityKwh * 1000) / bankVoltage;
 
-  // Unidades necessárias = Capacidade Ah Total / Capacidade Ah da Unidade
+  // Assumindo que a unidade de bateria adquirida (ex: rack LiFePO4 ou bloco chumbo)
+  // corresponde à tensão do banco (ex: módulo de 48V 100Ah para banco de 48V):
+  // O número total de baterias necessárias será apenas a demanda em Ah dividida pele capacidade da unidade.
   const unitsNeeded = Math.ceil(batteryCapacityAh / batteryUnitAh);
 
   return {
@@ -157,6 +155,7 @@ export function calculateSystemSizing(
     unitsNeeded,
     chosenSpecs: specs,
     avgRaw: avgRaw,
+    config: data,
   };
 }
 
